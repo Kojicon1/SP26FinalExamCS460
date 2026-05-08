@@ -1,6 +1,6 @@
 # Development Log – The Torchbearer
 
-**Student Name:** ___________________________
+**Student Name:** Stephen Conley
 **Student ID:** ___________________________
 
 > Instructions: Write at least four dated entries. Required entry types are marked below.

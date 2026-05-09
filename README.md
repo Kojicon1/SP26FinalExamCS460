@@ -106,17 +106,24 @@ Correct distances allow the accurate comparison of the total cost to traverse di
 > State the failure mode. Then give a concrete counter-example using specific node names
 > or costs (you may use the illustration example from the spec). Three to five bullets.
 
-- **The failure mode:** _Your answer here._
-- **Counter-example setup:** _Your answer here._
-- **What greedy picks:** _Your answer here._
-- **What optimal picks:** _Your answer here._
-- **Why greedy loses:** _Your answer here._
+- **The failure mode:** The failure for greedy is choosing a locally optimal path that creates a less optimal path later.
+- **Counter-example setup:** 
+| From \ To | B   | C   | D   | T   |
+|-----------|-----|-----|-----|-----|
+| S         | 3   | 5   | 8   | --  |
+| B         | --  | 100 | 20  | 1   |
+| C         | 4   | --  | 100 | 1   |
+| D         | 15  | 5   | --  | 100 |
+
+- **What greedy picks:** Greedy route:    S -> B -> D -> C -> T   total fuel: 3 + 20 + 5 + 1 = 29
+- **What optimal picks:** Optimal route:  S -> D -> C -> B -> T   total fuel: 8 + 5 + 4 + 1 = 18
+- **Why greedy loses:** It chooses to traverse to B first, but the distances to the other nodes with B as a source are significantly less optimal. Traversing to B last is most optimal.
 
 ### What the Algorithm Must Explore
 
 > One bullet. Must use the word "order."
 
-- _Your answer here._
+- It must explore all possible relic visitation orders and compare them to find the minimum total cost.
 
 ---
 
@@ -129,9 +136,9 @@ Correct distances allow the accurate comparison of the total cost to traverse di
 
 | Component | Variable name in code | Data type | Description |
 |---|---|---|---|
-| Current location | | | |
-| Relics already collected | | | |
-| Fuel cost so far | | | |
+| Current location | currLocation | node | current node in route |
+| Relics already collected | visitedRelics | set[node] | collection of already traversed relic nodes in this search |
+| Fuel cost so far | totalCost | int | total fuel so far|
 
 ### Part 5b: Data Structure for Visited Relics
 
@@ -139,18 +146,18 @@ Correct distances allow the accurate comparison of the total cost to traverse di
 
 | Property | Your answer |
 |---|---|
-| Data structure chosen | |
-| Operation: check if relic already collected | Time complexity: |
-| Operation: mark a relic as collected | Time complexity: |
-| Operation: unmark a relic (backtrack) | Time complexity: |
-| Why this structure fits | |
+| Data structure chosen | set |
+| Operation: check if relic already collected | Time complexity: O(1) |
+| Operation: mark a relic as collected | Time complexity: O(1) |
+| Operation: unmark a relic (backtrack) | Time complexity: O(1) |
+| Why this structure fits | It needs to check, add, and remove constantly, so a hash map works best for speed. |
 
 ### Part 5c: Worst-Case Search Space
 
 > Two bullets.
 
-- **Worst-case number of orders considered:** _Your answer (in terms of k)._
-- **Why:** _One-line justification._
+- **Worst-case number of orders considered:** The worst case is O(k!)
+- **Why:** Any relic can be visited in any order, so there are k options at first, then k-1, then k-2, and so on until 1.
 
 ---
 
@@ -160,23 +167,23 @@ Correct distances allow the accurate comparison of the total cost to traverse di
 
 > Three bullets.
 
-- **What is tracked:** _Your answer here._
-- **When it is used:** _Your answer here._
-- **What it allows the algorithm to skip:** _Your answer here._
+- **What is tracked:** The best total cost so far.
+- **When it is used:** It is used to compare the current route's total cost with the best so far total cost.
+- **What it allows the algorithm to skip:** It allows it to discard the current route the moment it exceeds the best so far cost, as it can't decrease.
 
 ### Part 6b: Lower Bound Estimation
 
 > Three bullets.
 
-- **What information is available at the current state:** _Your answer here._
-- **What the lower bound accounts for:** _Your answer here._
-- **Why it never overestimates:** _Your answer here._
+- **What information is available at the current state:** The current location, which relics have already been visited, the current running cost, and distances to relics or the destination are known.
+- **What the lower bound accounts for:** It estimates the remaining traversal cost to get an idea of how viable the current route is.
+- **Why it never overestimates:** It must never overestimate as it could potentially prune a route that is actually optimal.
 
 ### Part 6c: Pruning Correctness
 
 > One to two bullets. Explain why pruning is safe.
 
-- _Your answer here._
+- Pruning is safe as long as it never overestimates the remaining cost. If there is already a true cost path that is cheaper than the current cost combined the estimated cost, it is safe to discard that route search and continue.
 
 ---
 

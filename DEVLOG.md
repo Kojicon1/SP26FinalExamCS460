@@ -10,12 +10,16 @@
 
 ---
 
-## Entry 1 – [Date]: Initial Plan
+## Entry 1 – [05/09/2026]: Initial Plan
 
 > Required. Write this before writing any code. Describe your plan: what you will
 > implement first, what parts you expect to be difficult, and how you plan to test.
 
-_Your entry here._
+I plan to fill out the README file first to grasp an understanding of the problem and what is being asked before I start coding anything.
+After I complete that, I plan to implement the code in the order that the README follows. I expect that writing the search algorithm is the hardest part, 
+as comparison and storage should be more straight forward. I plan to test with small sets that include some edge cases and confirm it functions logically.
+
+After doing part 6 from the README, the pruning algorithm seems the most complex, with estimating the remaining cost without ever overestimated being the most troublesome in concept.
 
 ---
 
@@ -52,9 +56,9 @@ _Your entry here._
 | Part 1: Problem Analysis | 1.0 |
 | Part 2: Precomputation Design | 0.7 |
 | Part 3: Algorithm Correctness | 1.0 |
-| Part 4: Search Design | |
-| Part 5: State and Search Space | |
-| Part 6: Pruning | |
+| Part 4: Search Design | 0.5 |
+| Part 5: State and Search Space | 1.0 |
+| Part 6: Pruning | .8 |
 | Part 7: Implementation | |
 | README and DEVLOG writing | |
 | **Total** | |

@@ -32,9 +32,13 @@ def explain_problem():
         Your Part 1 README answers, written as a string.
         Must match what you wrote in README Part 1.
 
-    TODO
     """
-    return "TODO"
+    explanation = "A single shortest path run from S is not enough since it does not compute and compare the order of relics visited, " \
+    "which is necessary for lowest total cost whilst satisfying the requirements." \
+        "\nAfter all inter-location costs are known, the order of relics to traverse are stil unknown." \
+        "\nThis requires a search over orders since there are k! possible orders to visit, and each " \
+        "must be compared to find the true lowest total cost."
+    return explanation
 
 
 # =============================================================================
@@ -280,4 +284,5 @@ def _run_tests():
 
 
 if __name__ == "__main__":
-    _run_tests()
+    #_run_tests()
+    print(explain_problem())

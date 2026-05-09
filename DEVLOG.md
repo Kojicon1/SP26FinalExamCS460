@@ -1,7 +1,7 @@
 # Development Log – The Torchbearer
 
 **Student Name:** Stephen Conley
-**Student ID:** ___________________________
+**Student ID:** 130331614
 
 > Instructions: Write at least four dated entries. Required entry types are marked below.
 > Two to five sentences per entry is sufficient. Write entries as you go, not all in one
@@ -49,9 +49,9 @@ _Your entry here._
 
 | Part | Estimated Hours |
 |---|---|
-| Part 1: Problem Analysis | |
-| Part 2: Precomputation Design | |
-| Part 3: Algorithm Correctness | |
+| Part 1: Problem Analysis | 1.0 |
+| Part 2: Precomputation Design | 0.7 |
+| Part 3: Algorithm Correctness | 1.0 |
 | Part 4: Search Design | |
 | Part 5: State and Search Space | |
 | Part 6: Pruning | |

@@ -1,7 +1,7 @@
 # The Torchbearer
 
-**Student Name:** ___________________________
-**Student ID:** ___________________________
+**Student Name:** Stephen Conley
+**Student ID:** 130331614
 **Course:** CS 460 – Algorithms | Spring 2026
 
 > This README is your project documentation. Write it the way a developer would document
@@ -17,14 +17,13 @@
 > per question. Each bullet should be 1-2 sentences max.
 
 - **Why a single shortest-path run from S is not enough:**
-  _Your answer here._
+  It does not compute the order of relics visited, which is important for determining the total cost whilst satisfying the requirements.
 
 - **What decision remains after all inter-location costs are known:**
-  _Your answer here._
+  The optimal order of relics visited still remains.
 
 - **Why this requires a search over orders (one sentence):**
-  _Your answer here._
-
+  There are k! possible orders to visit all relics, and each must be evaluated and compared to optimize cost.
 ---
 
 ## Part 2: Precomputation Design
@@ -35,8 +34,8 @@
 
 | Source Node Type | Why it is a source |
 |---|---|
-| _node type_ | _one-line reason_ |
-| _node type_ | _one-line reason_ |
+| node S | Starting node, needs to begin from this node |
+| nodes R | Order visited is unknown, must be able to optimally traverse from any relic to any relic |
 
 ### Part 2b: Distance Storage
 
@@ -44,20 +43,20 @@
 
 | Property | Your answer |
 |---|---|
-| Data structure name | |
-| What the keys represent | |
-| What the values represent | |
-| Lookup time complexity | |
-| Why O(1) lookup is possible | |
+| Data structure name | Nested Dictionaries |
+| What the keys represent | Outer: source node, Inner: destination node|
+| What the values represent | Shortest cost path from source to destination|
+| Lookup time complexity | O(1) |
+| Why O(1) lookup is possible | Dictionary is a hash map |
 
 ### Part 2c: Precomputation Complexity
 
 > State the total complexity and show the arithmetic. Two to three lines max.
 
-- **Number of Dijkstra runs:** _your answer_
-- **Cost per run:** _your answer_
-- **Total complexity:** _your answer_
-- **Justification (one line):** _your answer_
+- **Number of Dijkstra runs:** Let k equal the magnitude of the relic set. Number of Dijkstra runs equals k + 1.
+- **Cost per run:** One Dijkstra run costs O(m log(n))
+- **Total complexity:** Total complexity is (k+1)*(m log(n)) = O(km log(n))
+- **Justification (one line):** Dijkstra is ran k + 1 times, each costing O(m log(n)). k + 1 is simplified to k.
 
 ---
 
@@ -72,29 +71,31 @@
 > Do not copy the invariant text from the spec.
 
 - **For nodes already finalized (in S):**
-  _Your answer here._
+  For nodes already in the finalized set, the distance is the lowest value possible to the destination.
 
 - **For nodes not yet finalized (not in S):**
-  _Your answer here._
+  For nodes not in the finalized set, the distance is the lowest value found using exlusively nodes from the finalized set as intermediate steps from source to destination.
 
 ### Part 3b: Why Each Phase Holds
 
 > One to two bullets per phase. Maintenance must mention nonnegative edge weights.
 
 - **Initialization : why the invariant holds before iteration 1:**
-  _Your answer here._
+  The starting node has the shortest path of 0, with source and destination being itself.
+  All other nodes have no discovered paths using finalized nodes, so all node distances are set to infinity.
 
 - **Maintenance : why finalizing the min-dist node is always correct:**
-  _Your answer here._
+  Since paths are built using only finalized, true shortest paths, the path to the new node is always correct.
+  Since all edge weights are nonnegative, no future path can decrease the distance.
 
 - **Termination : what the invariant guarantees when the algorithm ends:**
-  _Your answer here._
+  The invariant guarantees that all nodes are in the finalized set and their distances are their true shortest path.
 
 ### Part 3c: Why This Matters for the Route Planner
 
 > One sentence connecting correct distances to correct routing decisions.
 
-_Your answer here._
+Correct distances allow the accurate comparison of the total cost to traverse different possible routes.
 
 ---
 

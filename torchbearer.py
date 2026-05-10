@@ -57,9 +57,12 @@ def select_sources(spawn, relics, exit_node):
     -------
     list[node]
         No duplicates. Order does not matter.
-
-    TODO
     """
+    source = set()
+    source.add(spawn)
+    source.add(exit_node)
+    for i in len(relics):
+        source.add(relics[i])
     pass
 
 
@@ -77,8 +80,13 @@ def run_dijkstra(graph, source):
         Minimum cost from source to every node in graph.
         Unreachable nodes map to float('inf').
 
-    TODO
     """
+    
+
+
+    for node in graph:
+
+
     pass
 
 

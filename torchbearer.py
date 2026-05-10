@@ -81,13 +81,36 @@ def run_dijkstra(graph, source):
         Unreachable nodes map to float('inf').
 
     """
-    
+    inTree = {}
+    distList = {} # storage of the minimum cost from source to every node in graph
+    parent = {}
+    dist = 0 # current route cost from source to current node
+    weight = 0
+
 
 
     for node in graph:
-
-
-    pass
+        inTree[node] = False
+        distList[node] = float('inf')
+        parent[node] = None
+    
+    distList[source] = 0
+    currentNode = source
+    while inTree[currentNode] == False:
+        inTree[currentNode] = True
+        if (currentNode != source):
+            weight = weight + dist
+        for neighbor, weight in graph[currentNode]:
+            if (distList[neighbor] > (distList[currentNode] + weight)):
+                distList[neighbor] = distList[currentNode] + weight
+                parent[neighbor] = currentNode
+        
+        dist = float('inf')
+        for node in graph:
+            if (inTree[node] == False and dist > distList[node]):
+                dist = distList[node]
+                currentNode = node
+    return distList
 
 
 def precompute_distances(graph, spawn, relics, exit_node):
@@ -105,9 +128,13 @@ def precompute_distances(graph, spawn, relics, exit_node):
         Nested structure supporting dist_table[u][v] lookups
         for every source u your design requires.
 
-    TODO
     """
-    pass
+    dist_table = {}
+    dist_table[spawn] = run_dijkstra(graph, spawn)
+    for node in relics:
+        dist_table[node] = run_dijkstra(graph, node)
+
+    return dist_table
 
 
 # =============================================================================
@@ -124,7 +151,13 @@ def dijkstra_invariant_check():
 
     TODO
     """
-    return "TODO"
+    text = " For nodes already in the finalized set, the distance is the lowest value possible to the destination." \
+    "For nodes not in the finalized set, the distance is the lowest value found using exlusively nodes from the finalized set as intermediate steps from source to destination." \
+    "The starting node has the shortest path of 0, with source and destination being itself. All other nodes have no discovered paths using finalized nodes, so all node distances are set to infinity." \
+    " Since paths are built using only finalized, true shortest paths, the path to the new node is always correct. Since all edge weights are nonnegative, no future path can decrease the distance." \
+    " The invariant guarantees that all nodes are in the finalized set and their distances are their true shortest path." \
+    "Correct distances allow the accurate comparison of the total cost to traverse different possible routes."
+    return text
 
 
 # =============================================================================
@@ -139,9 +172,20 @@ def explain_search():
         Your Part 4 README answers, written as a string.
         Must match what you wrote in README Part 4.
 
-    TODO
     """
-    return "TODO"
+    text = "The failure mode for greedy is choosing a locally optimal path that creates a less optimal path later.\n" \
+    "| From / To | B   | C   | D   | T   |\n" \
+    "|-----------|-----|-----|-----|-----|\n" \
+    "| S         | 3   | 5   | 8   | --  |\n" \
+    "| B         | --  | 100 | 20  | 1   |\n" \
+    "| C         | 4   | --  | 100 | 1   |\n" \
+    "| D         | 15  | 5   | --  | 100 |\n" \
+    "Greedy route:    S -> B -> D -> C -> T   total fuel: 3 + 20 + 5 + 1 = 29\n" \
+    "Optimal route:  S -> D -> C -> B -> T   total fuel: 8 + 5 + 4 + 1 = 18\n" \
+    "Greedy chooses to traverse to B first, but the distances to the other nodes with B as a source are significantly less optimal. Traversing to B last is most optimal. " \
+    "The algorithm must explore all possible relic visitation orders and compare them to find the minimum total cost."
+
+    return text
 
 
 # =============================================================================
@@ -293,4 +337,5 @@ def _run_tests():
 
 if __name__ == "__main__":
     #_run_tests()
-    print(explain_problem())
+    print(explain_search())
+    

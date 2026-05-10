@@ -106,7 +106,7 @@ Correct distances allow the accurate comparison of the total cost to traverse di
 > State the failure mode. Then give a concrete counter-example using specific node names
 > or costs (you may use the illustration example from the spec). Three to five bullets.
 
-- **The failure mode:** The failure for greedy is choosing a locally optimal path that creates a less optimal path later.
+- **The failure mode:** The failure mode for greedy is choosing a locally optimal path that creates a less optimal path later.
 - **Counter-example setup:** 
 | From \ To | B   | C   | D   | T   |
 |-----------|-----|-----|-----|-----|

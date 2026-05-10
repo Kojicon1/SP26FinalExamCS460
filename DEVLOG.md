@@ -53,12 +53,12 @@ _Your entry here._
 
 | Part | Estimated Hours |
 |---|---|
-| Part 1: Problem Analysis | 1.0 |
-| Part 2: Precomputation Design | 0.7 |
+| Part 1: Problem Analysis | 0.2 |
+| Part 2: Precomputation Design | 2.5 |
 | Part 3: Algorithm Correctness | 1.0 |
 | Part 4: Search Design | 0.5 |
 | Part 5: State and Search Space | 1.0 |
 | Part 6: Pruning | .8 |
 | Part 7: Implementation | |
-| README and DEVLOG writing | |
+| README and DEVLOG writing | 5 |
 | **Total** | |

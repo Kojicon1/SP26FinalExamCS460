@@ -137,7 +137,7 @@ Correct distances allow the accurate comparison of the total cost to traverse di
 | Component | Variable name in code | Data type | Description |
 |---|---|---|---|
 | Current location | currLocation | node | current node in route |
-| Relics already collected | visitedRelics | set[node] | collection of already traversed relic nodes in this search |
+| Relics collected | relicsRemaining | set[node] | collection of relics nodes unvisited in this search |
 | Fuel cost so far | totalCost | int | total fuel so far|
 
 ### Part 5b: Data Structure for Visited Relics

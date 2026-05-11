@@ -28,7 +28,7 @@ After doing part 6 from the README, the pruning algorithm seems the most complex
 > Required. At least one entry must describe a bug, wrong assumption, or design change
 > you encountered. Describe what went wrong and how you resolved it.
 
-_Your entry here._
+One bug was that for the lower bound pruning it would search for the lowest next path to all relics, including those that had already been visited. I resolved it by limiting the search to only unvisited nodes.
 
 ---
 

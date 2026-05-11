@@ -81,8 +81,8 @@ def run_dijkstra(graph, source):
         Unreachable nodes map to float('inf').
 
     """
-    inTree = {}
-    distList = {} # storage of the minimum cost from source to every node in graph
+    in_tree = {}
+    dist_list = {} # storage of the minimum cost from source to every node in graph
     parent = {}
     dist = 0 # current route cost from source to current node
     weight = 0
@@ -90,27 +90,27 @@ def run_dijkstra(graph, source):
 
 
     for node in graph:
-        inTree[node] = False
-        distList[node] = float('inf')
+        in_tree[node] = False
+        dist_list[node] = float('inf')
         parent[node] = None
     
-    distList[source] = 0
+    dist_list[source] = 0
     currentNode = source
-    while inTree[currentNode] == False:
-        inTree[currentNode] = True
+    while in_tree[currentNode] == False:
+        in_tree[currentNode] = True
         if (currentNode != source):
             weight = weight + dist
         for neighbor, weight in graph[currentNode]:
-            if (distList[neighbor] > (distList[currentNode] + weight)):
-                distList[neighbor] = distList[currentNode] + weight
+            if (dist_list[neighbor] > (dist_list[currentNode] + weight)):
+                dist_list[neighbor] = dist_list[currentNode] + weight
                 parent[neighbor] = currentNode
         
         dist = float('inf')
         for node in graph:
-            if (inTree[node] == False and dist > distList[node]):
-                dist = distList[node]
+            if (in_tree[node] == False and dist > dist_list[node]):
+                dist = dist_list[node]
                 currentNode = node
-    return distList
+    return dist_list
 
 
 def precompute_distances(graph, spawn, relics, exit_node):
@@ -129,6 +129,7 @@ def precompute_distances(graph, spawn, relics, exit_node):
         for every source u your design requires.
 
     """
+    # compute distances spawn->relics, relics->relics, relics->exit
     dist_table = {}
     dist_table[spawn] = run_dijkstra(graph, spawn)
     for node in relics:
@@ -149,7 +150,6 @@ def dijkstra_invariant_check():
         Your Part 3 README answers, written as a string.
         Must match what you wrote in README Part 3.
 
-    TODO
     """
     text = " For nodes already in the finalized set, the distance is the lowest value possible to the destination." \
     "For nodes not in the finalized set, the distance is the lowest value found using exlusively nodes from the finalized set as intermediate steps from source to destination." \
@@ -210,9 +210,13 @@ def find_optimal_route(dist_table, spawn, relics, exit_node):
         (minimum_fuel_cost, ordered_relic_list)
         Returns (float('inf'), []) if no valid route exists.
 
-    TODO
     """
-    pass
+    best = [float('inf'), []] 
+    relics_remaining = set(relics)
+    _explore(dist_table, spawn, relics_remaining, [spawn], 0, exit_node, best) 
+
+    return best
+
 
 
 def _explore(dist_table, current_loc, relics_remaining, relics_visited_order,
@@ -237,14 +241,60 @@ def _explore(dist_table, current_loc, relics_remaining, relics_visited_order,
     None
         Updates best in place.
 
-    TODO
+    
     Implement: base case, pruning, recursive case, backtracking.
 
     REQUIRED: Add a 1-2 sentence comment near your pruning condition
     explaining why it is safe (cannot skip the optimal solution).
     This comment is graded.
+
     """
-    pass
+    # simple prune, safe since it cannot ever decrease cost 
+    if cost_so_far >= best[0]: 
+        return
+
+    # all relics visited, just need to go to exit
+    if len(relics_remaining) == 0:
+        exit_cost = dist_table[current_loc][exit_node]
+
+        # if exit not possible
+        if exit_cost == float('inf'):
+            return
+        
+        total_cost = cost_so_far + exit_cost
+
+        # update best cost and add to route if better than current best
+        if total_cost < best[0]:
+            best[0] = total_cost
+            best[1] = relics_visited_order + [exit_node]
+        return
+
+        
+    # lower bound prune, safe since it considers only the cost to the next node and the cost 
+    # to another node and to the exit. it does not consider the intermediate nodes needed, so it always underestimates.
+    min_next_cost = float('inf')
+    for node in relics_remaining:
+        cost = dist_table[current_loc][node]
+        if cost < min_next_cost:
+            min_next_cost = cost
+    min_exit_cost = float('inf')
+    for node in relics_remaining:
+        cost = dist_table[node][exit_node]
+        if cost < min_exit_cost:
+            min_exit_cost = cost
+    if cost_so_far + min_next_cost + min_exit_cost >= best[0]:
+        return    
+    
+    
+    # exploration, continue to branch out to remaining relics
+    for node in relics_remaining:
+        travel_cost = dist_table[current_loc][node]
+
+        if travel_cost == float('inf'):
+            continue
+        relics_remaining.remove(node)
+        _explore(dist_table, node, relics_remaining, relics_visited_order + [node], cost_so_far + travel_cost, exit_node, best)
+        relics_remaining.add(node)
 
 
 # =============================================================================
@@ -266,9 +316,10 @@ def solve(graph, spawn, relics, exit_node):
         (minimum_fuel_cost, ordered_relic_list)
         Returns (float('inf'), []) if no valid route exists.
 
-    TODO
+    
     """
-    pass
+    dist_table = precompute_distances(graph, spawn, relics, exit_node)
+    return find_optimal_route(dist_table, spawn, relics, exit_node)
 
 
 # =============================================================================
@@ -336,6 +387,5 @@ def _run_tests():
 
 
 if __name__ == "__main__":
-    #_run_tests()
-    print(explain_search())
+    _run_tests()
     

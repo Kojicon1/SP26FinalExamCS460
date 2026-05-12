@@ -2,8 +2,8 @@
 CS 460 – Algorithms: Final Programming Assignment
 The Torchbearer
 
-Student Name: ___________________________
-Student ID:   ___________________________
+Student Name: Stephen Conley
+Student ID:   130331614
 
 INSTRUCTIONS
 ------------
@@ -61,9 +61,9 @@ def select_sources(spawn, relics, exit_node):
     source = set()
     source.add(spawn)
     source.add(exit_node)
-    for i in len(relics):
-        source.add(relics[i])
-    pass
+    for i in relics:
+        source.add(i)
+    return list(source)
 
 
 def run_dijkstra(graph, source):
@@ -88,7 +88,7 @@ def run_dijkstra(graph, source):
     weight = 0
 
 
-
+    # initialization, all nodes hav inf dist, no parent
     for node in graph:
         in_tree[node] = False
         dist_list[node] = float('inf')
@@ -96,10 +96,13 @@ def run_dijkstra(graph, source):
     
     dist_list[source] = 0
     currentNode = source
+    # loop until all nodes are in visited tree
     while in_tree[currentNode] == False:
         in_tree[currentNode] = True
+
         if (currentNode != source):
             weight = weight + dist
+        
         for neighbor, weight in graph[currentNode]:
             if (dist_list[neighbor] > (dist_list[currentNode] + weight)):
                 dist_list[neighbor] = dist_list[currentNode] + weight
@@ -215,7 +218,7 @@ def find_optimal_route(dist_table, spawn, relics, exit_node):
     relics_remaining = set(relics)
     _explore(dist_table, spawn, relics_remaining, [spawn], 0, exit_node, best) 
 
-    return best
+    return best[0], best[1]
 
 
 
@@ -272,11 +275,14 @@ def _explore(dist_table, current_loc, relics_remaining, relics_visited_order,
         
     # lower bound prune, safe since it considers only the cost to the next node and the cost 
     # to another node and to the exit. it does not consider the intermediate nodes needed, so it always underestimates.
+
+    # compute lowest next relic
     min_next_cost = float('inf')
     for node in relics_remaining:
         cost = dist_table[current_loc][node]
         if cost < min_next_cost:
             min_next_cost = cost
+    # compute lowest exit cost
     min_exit_cost = float('inf')
     for node in relics_remaining:
         cost = dist_table[node][exit_node]
@@ -294,7 +300,7 @@ def _explore(dist_table, current_loc, relics_remaining, relics_visited_order,
             continue
         relics_remaining.remove(node)
         _explore(dist_table, node, relics_remaining, relics_visited_order + [node], cost_so_far + travel_cost, exit_node, best)
-        relics_remaining.add(node)
+        relics_remaining.add(node) # backtraacking
 
 
 # =============================================================================

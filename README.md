@@ -4,17 +4,10 @@
 **Student ID:** 130331614
 **Course:** CS 460 – Algorithms | Spring 2026
 
-> This README is your project documentation. Write it the way a developer would document
-> their design decisions , bullet points, brief justifications, and concrete examples where
-> required. You are not writing an essay. You are explaining what you built and why you built
-> it that way. Delete all blockquotes like this one before submitting.
-
 ---
 
 ## Part 1: Problem Analysis
 
-> Document why this problem is not just a shortest-path problem. Three bullet points, one
-> per question. Each bullet should be 1-2 sentences max.
 
 - **Why a single shortest-path run from S is not enough:**
   It does not compute the order of relics visited, which is important for determining the total cost whilst satisfying the requirements.
@@ -30,7 +23,6 @@
 
 ### Part 2a: Source Selection
 
-> List the source node types as a bullet list. For each, one-line reason.
 
 | Source Node Type | Why it is a source |
 |---|---|
@@ -39,7 +31,6 @@
 
 ### Part 2b: Distance Storage
 
-> Fill in the table. No prose required.
 
 | Property | Your answer |
 |---|---|
@@ -51,7 +42,6 @@
 
 ### Part 2c: Precomputation Complexity
 
-> State the total complexity and show the arithmetic. Two to three lines max.
 
 - **Number of Dijkstra runs:** Let k equal the magnitude of the relic set. Number of Dijkstra runs equals k + 1.
 - **Cost per run:** One Dijkstra run costs O(m log(n))
@@ -62,13 +52,9 @@
 
 ## Part 3: Algorithm Correctness
 
-> Document your understanding of why Dijkstra produces correct distances.
-> Bullet points and short sentences throughout. No paragraphs.
 
 ### Part 3a: What the Invariant Means
 
-> Two bullets: one for finalized nodes, one for non-finalized nodes.
-> Do not copy the invariant text from the spec.
 
 - **For nodes already finalized (in S):**
   For nodes already in the finalized set, the distance is the lowest value possible to the destination.
@@ -78,7 +64,6 @@
 
 ### Part 3b: Why Each Phase Holds
 
-> One to two bullets per phase. Maintenance must mention nonnegative edge weights.
 
 - **Initialization : why the invariant holds before iteration 1:**
   The starting node has the shortest path of 0, with source and destination being itself.
@@ -93,7 +78,6 @@
 
 ### Part 3c: Why This Matters for the Route Planner
 
-> One sentence connecting correct distances to correct routing decisions.
 
 Correct distances allow the accurate comparison of the total cost to traverse different possible routes.
 
@@ -103,8 +87,7 @@ Correct distances allow the accurate comparison of the total cost to traverse di
 
 ### Why Greedy Fails
 
-> State the failure mode. Then give a concrete counter-example using specific node names
-> or costs (you may use the illustration example from the spec). Three to five bullets.
+
 
 - **The failure mode:** The failure mode for greedy is choosing a locally optimal path that creates a less optimal path later.
 - **Counter-example setup:** 
@@ -121,7 +104,6 @@ Correct distances allow the accurate comparison of the total cost to traverse di
 
 ### What the Algorithm Must Explore
 
-> One bullet. Must use the word "order."
 
 - It must explore all possible relic visitation orders and compare them to find the minimum total cost.
 
@@ -131,18 +113,15 @@ Correct distances allow the accurate comparison of the total cost to traverse di
 
 ### Part 5a: State Representation
 
-> Document the three components of your search state as a table.
-> Variable names here must match exactly what you use in torchbearer.py.
 
 | Component | Variable name in code | Data type | Description |
 |---|---|---|---|
-| Current location | currLocation | node | current node in route |
-| Relics collected | relicsRemaining | set[node] | collection of relics nodes unvisited in this search |
-| Fuel cost so far | totalCost | int | total fuel so far|
+| Current location | current_loc | node | current node in route |
+| Relics remaining | relics_remaining | set[node] | collection of relics nodes unvisited in this search |
+| Fuel cost so far | cost_so_far | int | total fuel so far|
 
-### Part 5b: Data Structure for Visited Relics
+### Part 5b: Data Structure for Remaining Relics
 
-> Fill in the table.
 
 | Property | Your answer |
 |---|---|
@@ -154,7 +133,6 @@ Correct distances allow the accurate comparison of the total cost to traverse di
 
 ### Part 5c: Worst-Case Search Space
 
-> Two bullets.
 
 - **Worst-case number of orders considered:** The worst case is O(k!)
 - **Why:** Any relic can be visited in any order, so there are k options at first, then k-1, then k-2, and so on until 1.
@@ -165,7 +143,6 @@ Correct distances allow the accurate comparison of the total cost to traverse di
 
 ### Part 6a: Best-So-Far Tracking
 
-> Three bullets.
 
 - **What is tracked:** The best total cost so far.
 - **When it is used:** It is used to compare the current route's total cost with the best so far total cost.
@@ -173,15 +150,11 @@ Correct distances allow the accurate comparison of the total cost to traverse di
 
 ### Part 6b: Lower Bound Estimation
 
-> Three bullets.
-
 - **What information is available at the current state:** The current location, which relics have already been visited, the current running cost, and distances to relics or the destination are known.
 - **What the lower bound accounts for:** It estimates the remaining traversal cost to get an idea of how viable the current route is.
 - **Why it never overestimates:** It must never overestimate as it could potentially prune a route that is actually optimal.
 
 ### Part 6c: Pruning Correctness
-
-> One to two bullets. Explain why pruning is safe.
 
 - Pruning is safe as long as it never overestimates the remaining cost. If there is already a true cost path that is cheaper than the current cost combined the estimated cost, it is safe to discard that route search and continue.
 
@@ -189,6 +162,6 @@ Correct distances allow the accurate comparison of the total cost to traverse di
 
 ## References
 
-> Bullet list. If none beyond lecture notes, write that.
 
-- _Your references here._
+- Skiena, The Algorithm Design Manual, 3rd edition
+- Lecture Notes
